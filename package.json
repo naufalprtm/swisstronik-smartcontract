@@ -1,0 +1,39 @@
+{
+  "name": "swisstronik",
+  "version": "1.0.0",
+  "description": "Swisstronik is a Solidity contract designed for testing purposes. It allows an authorized owner to set and get a message stored on the blockchain. The contract includes mechanisms to protect against reentrancy attacks and ensures only the owner can modify the message. Link: [gas](https://www.swisstronik.com/testnet2/dashboard)",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "mocha",
+    "deploy": "npx hardhat run scripts/deploy.ts --network swisstronik",
+    "get-message": "npx hardhat run scripts/getMessage.ts --network swisstronik",
+    "set-message": "npx hardhat run scripts/setMessage.ts --network swisstronik",
+    "compile": "npx hardhat compile"
+  },
+  "keywords": [],
+  "author": "Zixine",
+  "license": "ISC",
+  "dependencies": {
+    "@swisstronik/utils": "^1.1.0",
+    "dotenv": "^16.4.5",
+    "fs-extra": "^11.1.1",
+    "@openzeppelin/contracts": "^4.8.0"
+  },
+  "devDependencies": {
+    "@nomicfoundation/hardhat-toolbox": "^5.0.0",
+    "hardhat": "^2.22.6",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/naufalprtm/swisstronik-smartcontract"
+  },
+  "author": {
+    "name": "Zixine",
+    "url": "https://github.com/naufalprtm/swisstronik-smartcontract"
+  }
+}
