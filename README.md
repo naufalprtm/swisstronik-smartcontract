@@ -1,115 +1,127 @@
-# Swisstronik Tesnet Techinal Task 1
+# Swisstronik Smart Contract
 
-link : [Click!](https://www.swisstronik.com/testnet2/dashboard)
+Swisstronik is a Solidity contract designed for testing purposes. It allows an authorized owner to set and get a message stored on the blockchain. The contract includes mechanisms to protect against reentrancy attacks and ensures only the owner can modify the message.
 
-Feel free donate to my EVM address
+## Features
 
-EVM :
+- **Set Message**: Allows the owner to set a new message.
+- **Get Message**: Allows anyone to retrieve the current message.
+- **Ownership**: Only the owner can set a new message.
+- **Reentrancy Protection**: Uses OpenZeppelin's `ReentrancyGuard` to prevent reentrancy attacks.
 
-```bash
-0x9902C3A98Df4b240ad5496cC26F89bAb8058f4aE
-```
+## Dependencies
 
-## Steps
+To use this project, you need to have the following dependencies installed:
 
-### 1. Clone Repository
+- [Node.js](https://nodejs.org/) (>=16)
+- [Hardhat](https://hardhat.org/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [OpenZeppelin Contracts](https://openzeppelin.com/contracts/)
 
-```bash
-git clone https://github.com/Mnuralim/hardhat-deploy-contract.git
-```
+## Installation
 
-```
-cd hardhat-deploy-contract
-```
+1. Clone the repository:
 
-### 2. Install Dependency
+    ```sh
+    git clone https://github.com/naufalprtm/swisstronik-smartcontract.git
+    cd swisstronik-smartcontract
+    ```
 
-```bash
-npm install
-```
+2. Install the dependencies:
 
-### 3. Set .env File
+    ```sh
+    npm install
+    ```
 
-create .env file in root project
+## Configuration
 
-```bash
-PRIVATE_KEY="your private key"
-```
+Create a `.env` file in the root of the project and add the following environment variables:
 
-### 4. Create Smart Contract
+```plaintext
+SWISSTRONIK_URL=<Your Swisstronik Node URL>
+PRIVATE_KEY=<Your Private Key>
 
-- Open contract folder
-- Create Hello_swtr.sol file
-- Copy this code and paste there
 
-```
-/// SPDX-License-Identifier: UNLICENSED
+## Usage
+Compile the Contract
+To compile the contract, run:
+
+
+    ```sh
+npm run compile
+    ```
+
+Deploy the Contract
+To deploy the contract to the Swisstronik network, run:
+
+    ```sh
+npm run deploy
+    ```
+
+Interact with the Contract
+Get the Message
+To retrieve the current message stored in the contract, run:
+
+    ```sh
+npm run get-message
+    ```
+
+Set a New Message
+To set a new message, run:
+
+    ```sh
+npm run set-message -- <new-message>
+    ```
+
+Replace <new-message> with the message you want to store.
+
+Contract Explanation
+The Swisstronik contract is defined as follows:
+
+
+
+    ```sh
+// SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
-//This contract is only intended for testing purposes
+import "@openzeppelin/contracts/security/ReentrancyGuard.sol";
 
-contract Swisstronik {
+contract Swisstronik is ReentrancyGuard {
     string private message;
+    address private owner;
 
-    /**
-     * @dev Constructor is used to set the initial message for the contract
-     * @param _message the message to associate with the message variable.
-     */
-    constructor(string memory _message) payable{
+    event MessageUpdated(string oldMessage, string newMessage);
+
+    constructor(string memory _message) payable {
         message = _message;
+        owner = msg.sender;
     }
 
-    /**
-     * @dev setMessage() updates the stored message in the contract
-     * @param _message the new message to replace the existing one
-     */
-    function setMessage(string memory _message) public {
-        message = _message;
+    modifier onlyOwner() {
+        require(msg.sender == owner, "Only the owner can perform this action");
+        _;
     }
 
-    /**
-     * @dev getMessage() retrieves the currently stored message in the contract
-     * @return The message associated with the contract
-     */
-    function getMessage() public view returns(string memory){
+    function setMessage(string memory _message) public onlyOwner nonReentrant {
+        string memory oldMessage = message;
+        message = _message;
+        emit MessageUpdated(oldMessage, _message);
+    }
+
+    function getMessage() public view returns (string memory) {
         return message;
     }
+
+    function getOwner() public view returns (address) {
+        return owner;
+    }
 }
-```
+    ```
 
-### 5. Compile Smart Contract
 
-```bash
-npm run compile
-```
-
-### 6. Deploy Smart Contract
-
-```bash
-npm run deploy
-```
-
-### 7. Get Message
-
-```bash
-npm run get-message
-```
-
-### 8. Get Message
-
-```bash
-npm run set-message
-```
-
-### 9. Finsihed
-
-- Open the deployed-adddress.ts (location in utils folder)
-- Copy the address and paste the address in testnet dashboard
-- push this project to your github and paste your repository link in testnet dashboard
-
-by :
-github : [Mnuralim](https://github.com/Mnuralim)
-twitter : @Izzycracker04
-telegram : @fitriay19
-
-//0xf1f0C7Bf19ee4E196C0213cEE1002e9a5fadff62//
+Constructor: Initializes the contract with an initial message and sets the deployer as the owner.
+setMessage: Allows the owner to set a new message. Emits a MessageUpdated event.
+getMessage: Retrieves the current message stored in the contract.
+getOwner: Retrieves the owner address of the contract.
+Contributing
+If you would like to contribute, please fork the repository and use a feature branch. Pull requests are warmly welcome.
