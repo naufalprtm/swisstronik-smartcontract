@@ -37,41 +37,41 @@ To use this project, you need to have the following dependencies installed:
 
 Create a `.env` file in the root of the project and add the following environment variables:
 
-```plaintext
+```
 SWISSTRONIK_URL=<Your Swisstronik Node URL>
 PRIVATE_KEY=<Your Private Key>
-
+```
 
 ## Usage
 Compile the Contract
 To compile the contract, run:
 
 
-    ```sh
+```
 npm run compile
-    ```
+```
 
 Deploy the Contract
 To deploy the contract to the Swisstronik network, run:
 
-    ```sh
+```
 npm run deploy
-    ```
+```
 
 Interact with the Contract
 Get the Message
 To retrieve the current message stored in the contract, run:
 
-    ```sh
+```
 npm run get-message
-    ```
+```
 
 Set a New Message
 To set a new message, run:
 
-    ```sh
+```
 npm run set-message -- <new-message>
-    ```
+```
 
 Replace <new-message> with the message you want to store.
 
@@ -80,7 +80,7 @@ The Swisstronik contract is defined as follows:
 
 
 
-    ```sh
+```
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity ^0.8.19;
 
@@ -116,7 +116,7 @@ contract Swisstronik is ReentrancyGuard {
         return owner;
     }
 }
-    ```
+```
 
 
 Constructor: Initializes the contract with an initial message and sets the deployer as the owner.
